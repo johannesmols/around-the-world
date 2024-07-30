@@ -1,38 +1,28 @@
 import '@openglobus/openglobus-react/dist/style.css'
-import {Entity, Globe, GlobeContextProvider, Label, Vector} from '@openglobus/openglobus-react'
-
+import { Globe, GlobeContextProvider, Vector } from '@openglobus/openglobus-react'
+import { Bing, GlobusTerrain, math } from '@openglobus/og'
 
 function App() {
-    return <GlobeContextProvider>
-        <Globe fontsSrc="https://openglobus.org/examples/examples/fonts/fonts">
-            <Vector name="test">
-                <Entity
-                    alt={0}
-                    lat={0}
-                    lon={0}
-                    name="Custom Entity"
-                >
-                    <Label
-                        align="center"
-                        color="#053df3"
-                        face="Audiowide-Regular"
-                        offset={[
-                            0,
-                            0,
-                            0
-                        ]}
-                        opacity={1}
-                        outline={0.2}
-                        outlineColor="#33fa07"
-                        rotation={0}
-                        size={32}
-                        text="Hello, World!"
-                        visibility
-                    />
-                </Entity>
-            </Vector>
+    let globe = 
+        <Globe
+            layers={[new Bing("")]}
+            terrain={new GlobusTerrain()}
+            atmosphereEnabled={true}
+            fontsSrc="https://openglobus.org/examples/examples/fonts/fonts">
         </Globe>
-    </GlobeContextProvider>
+
+    let vec = Vector({
+        name: "LinesCircles",
+        pickingScale: 1,
+        pickingEnabled: true,
+        scaleByDistance: [1.0, math.MAX32, 1.0],
+        relativeToGround: false
+    });
+
+    //globe.props.layers.addLayer(vec);
+    console.log(globe);
+
+    return <GlobeContextProvider>{globe}</GlobeContextProvider>
 }
 
 export default App
